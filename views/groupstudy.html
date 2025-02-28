@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/def.css">
+    <link rel="stylesheet" href="/css/music.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/timer.css">
+    <link rel="stylesheet" href="/css/ai.css">
+
+
+    <style>
+
+        /* Heading styling */
+        .form-group h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Input field styling */
+        .form-group input {
+            background-color: #333;
+            color: white;
+            border-radius: 0.5rem;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        /* Button styling */
+        .form-group button {
+            background-color: #f59e0b;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #d47c00;
+        }
+
+        /* Special room code input styling */
+        #room-code {
+            background-color: #444;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="fixed flex flex-y-center w100 bb pad-1" style="height: 7vh; top: 0;"></header>
+
+    <main class="flex w100 h100" style="margin-top: 7vh;">
+
+        <section id="mainDiv" class="flex flex-y flex-grow-1 mar-lr  relative"
+            style="height: 92vh; width: 80%;  border-radius: 30px;">
+
+
+            <div>
+
+            </div>
+
+            <div class="flex black flex-x-center flex-y-center h100" style="border-radius: 20px;">
+                <!-- Room Creation -->
+                <div class="form-group w50 h100 flex flex-y flex-x-center flex-y-center">
+                    <h2>Want to start a new room?</h2>
+                    <div class="flex flex-x-center flex-y-center" style="margin-top: 40px;">
+                        <input type="text" placeholder="Room Name" id="room-name">
+                        <button onclick="createRoom()">Create</button>
+                    </div>
+
+                </div>
+
+                <!-- Room Join -->
+                <div class="form-group w50 h100 flex flex-y flex-x-center flex-y-center"
+                    style="border-left: 1px solid white;">
+                    <h2>Just enter the code and Study together</h2>
+                    <div class="flex flex-x-center flex-y-center" style="margin-top: 40px;">
+                        <input type="text" placeholder="Room Code" id="room-code">
+                        <button onclick="joinRoom()">Join</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <section class="flex flex-y flex-right flex-grow-1 mar-lr"
+            style="height: 92vh; width: 20%;  border-radius: 30px;">
+
+            <div id="timer" class="timer-container" style="margin-bottom: 5px;">
+                <div class="time-display">
+                    <div class="time" id="time">14:45</div>
+                    <div class="label">Timer</div>
+                </div>
+                <button class="play-pause-btn" aria-label="Play/Pause timer" id="controlButton">
+                    <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="pause-icon hidden" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">AI Chat</div>
+                <div class="chat-box" id="chatBox">
+                    <!-- Chat messages will go here -->
+                </div>
+                <div class="chat-input">
+                    <textarea id="userInput" rows="5" placeholder="Type a message..."></textarea>
+                    <button class="send-button" id="sendButton">&#8594;</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/js/timer.js"></script>
+    <script src="/js/elms.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="/js/ai.js"></script>
+
+</body>
+
+</html>

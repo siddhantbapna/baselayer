@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/def.css">
+    <link rel="stylesheet" href="/css/music.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/timer.css">
+    <link rel="stylesheet" href="/css/ai.css">
+
+
+    <style>
+        .row {
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: calc(-1 * var(--bs-gutter-y));
+            margin-right: calc(-.5 * var(--bs-gutter-x));
+            margin-left: calc(-.5 * var(--bs-gutter-x));
+        }
+
+        .justify-content-center {
+            justify-content: center !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .p-2 {
+            padding: .5rem !important;
+        }
+
+        @media (min-width:768px) {
+            .col-md-3 {
+                flex: 0 0 auto;
+                width: 25%;
+            }
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="fixed flex flex-y-center w100 bb pad-1" style="height: 7vh; top: 0;"></header>
+
+    <main class="flex w100 h100" style="margin-top: 7vh;">
+
+        <section id="mainDiv" class="flex flex-y flex-grow-1 mar-lr  relative"
+            style="height: 92vh; width: 80%;  border-radius: 30px;">
+
+            <div id="home" class="contentPage">
+
+                <div>
+                    <div id="videos" class="row justify-content-center">
+
+                        <!-- <div class="col-md-3 p-2 text-center white">
+
+                            <video class="hover img-fluid" autoplay
+                                style="aspect-ratio: 4 / 5; object-fit: cover; border-radius:20px; width: 100%; height: auto; margin: 0 auto; display: block;"></video>
+                            <p class="mt-3 customFont">Poetry Pills</p>
+
+                        </div> -->
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="absolute pad-1 flex flex-x-center flex-y-center" style="right : 20px; bottom: 20px;">
+                <div style="background-color: rgb(244, 51, 51); padding: 10px; border-radius: 50%;"><svg
+                        xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#e3e3e3">
+                        <path
+                            d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z" />
+                    </svg></div>
+                <div style="background-color: rgb(244, 51, 51); padding: 10px; border-radius: 50%;"><svg
+                        xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#e3e3e3">
+                        <path
+                            d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z" />
+                    </svg></div>
+                <div style="background-color: rgb(244, 51, 51); padding: 10px; border-radius: 50%;"><svg
+                        xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#e3e3e3">
+                        <path
+                            d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l160-160v440L720-420v180q0 33-23.5 56.5T640-160H160Zm0-80h480v-480H160v480Zm0 0v-480 480Z" />
+                    </svg></div>
+            </div>
+
+        </section>
+
+        <section class="flex flex-y flex-right flex-grow-1 mar-lr"
+            style="height: 92vh; width: 20%;  border-radius: 30px;">
+
+            <div id="timer" class="timer-container" style="margin-bottom: 5px;">
+                <div class="time-display">
+                    <div class="time" id="time">14:45</div>
+                    <div class="label">Timer</div>
+                </div>
+                <button class="play-pause-btn" aria-label="Play/Pause timer" id="controlButton">
+                    <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="pause-icon hidden" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">AI Chat</div>
+                <div class="chat-box" id="chatBox">
+                    <!-- Chat messages will go here -->
+                </div>
+                <div class="chat-input">
+                    <textarea id="userInput" rows="5" placeholder="Type a message..."></textarea>
+                    <button class="send-button" id="sendButton">&#8594;</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/js/timer.js"></script>
+    <script src="/js/elms.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="/js/ai.js"></script>
+
+    <script>
+
+        function createVideo(text, srcobj) {
+            // Create the main div container
+            const colDiv = document.createElement('div');
+            colDiv.classList.add('col-md-3', 'p-2', 'text-center');
+            colDiv.id = text
+
+            // Create the video element
+            const videoElement = document.createElement('video');
+            videoElement.srcObject = srcobj
+            videoElement.autoplay = true;
+            videoElement.muted = true;
+
+            videoElement.classList.add('hover', 'img-fluid');
+            videoElement.style.aspectRatio = '4 / 5';
+            videoElement.style.objectFit = 'cover';
+            videoElement.style.borderRadius = '20px';
+            videoElement.style.width = '100%';
+            videoElement.style.height = 'auto';
+            videoElement.style.margin = '0 auto';
+            videoElement.style.display = 'block';
+
+            const textElement = document.createElement('p');
+            textElement.classList.add('mt-3', 'customFont');
+            textElement.textContent = text;
+
+            colDiv.appendChild(videoElement);
+            colDiv.appendChild(textElement);
+
+            const container = document.getElementById('videos');
+            container.appendChild(colDiv);
+
+        }
+
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        let localStream;
+        let peerConnections = {};
+        
+        const path = window.location.pathname;
+        const pathParts = path.split('/');
+
+        let roomName = pathParts[2];
+
+        console.log(roomName);
+
+        async function startMedia() {
+
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            } catch (err) {
+
+                console.log('Webcam not available, using color animation.');
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const canvasWidth = 640;
+                const canvasHeight = 480;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+
+                let hue = 0;
+
+                function animateCanvas() {
+                    ctx.fillStyle = `hsl(${hue}, 100%, 50%)`; // Use hue to change colors
+                    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                    hue = (hue + 1) % 360; // Increment the hue value for continuous color change
+
+                    // Request the next frame
+                    requestAnimationFrame(animateCanvas);
+                }
+
+                animateCanvas();
+                const canvasStream = canvas.captureStream(30);
+                localStream = canvasStream;
+
+            }
+
+            try {
+                createVideo("Me", localStream)
+                socket.emit('join-room', roomName);
+            } catch (err) {
+                console.error('Error accessing media devices.', err);
+            }
+        }
+
+        // Create a peer connection
+        function createPeerConnection(socketId) {
+            const peerConnection = new RTCPeerConnection({
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' }
+                ]
+            });
+
+            // Add local stream tracks to peer connection
+            localStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, localStream);
+            });
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit('ice-candidate', roomName, event.candidate, socketId);
+                }
+            };
+
+            peerConnection.ontrack = (event) => {
+                // const remoteVideo = document.createElement('video');
+                // remoteVideo.srcObject = event.streams[0];
+                // remoteVideo.autoplay = true;
+                // remoteVideo.style.objectFit = "cover"
+                // document.body.appendChild(remoteVideo);
+
+                createVideo(socketId, event.streams[0])
+
+            };
+
+            return peerConnection;
+        }
+
+        // Send offer to the other peer
+        function createOffer(socketId) {
+            const peerConnection = createPeerConnection(socketId);
+
+            peerConnections[socketId] = peerConnection;
+
+            peerConnection.createOffer()
+                .then(offer => {
+                    return peerConnection.setLocalDescription(offer);
+                })
+                .then(() => {
+                    socket.emit('offer', roomName, peerConnection.localDescription, socketId);
+                })
+                .catch(err => console.error('Error creating offer:', err));
+        }
+
+        // Handle incoming offer
+        socket.on('offer', (offer, socketId) => {
+            const peerConnection = createPeerConnection(socketId);
+            peerConnections[socketId] = peerConnection;
+
+            peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
+                .then(() => {
+                    return peerConnection.createAnswer();
+                })
+                .then(answer => {
+                    return peerConnection.setLocalDescription(answer);
+                })
+                .then(() => {
+                    socket.emit('answer', roomName, peerConnection.localDescription, socketId);
+                })
+                .catch(err => console.error('Error handling offer:', err));
+        });
+
+        // Handle incoming answer
+        socket.on('answer', (answer, socketId) => {
+            peerConnections[socketId].setRemoteDescription(new RTCSessionDescription(answer));
+        });
+
+        // Handle incoming ICE candidate
+        socket.on('ice-candidate', (candidate, socketId) => {
+            peerConnections[socketId].addIceCandidate(new RTCIceCandidate(candidate));
+        });
+
+        // Handle new user joining
+        socket.on('new-user', (socketId) => {
+            createOffer(socketId);
+        });
+
+        socket.on('disconnected', (socketId) => {
+            document.getElementById(socketId).remove()
+        });
+
+        // Start media when the page loads
+        window.onload = startMedia;
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/def.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <link rel="stylesheet" href="css/login.css">
+
+</head>
+
+<body>
+
+    <header class="flex pad-2 flex-x-center flex-y-center s2">
+        <div class="flex flex-left flex-grow-1" style="font-size: 30px; font-weight: 600;">Study</div>
+        <div id="GetStarted" class="flex flex-right hover">Get Started</div>
+    </header>
+
+    <div class="auth-container fixed center" id="loginPopup">
+
+        <div class="relative flex w100 pad-1 bb">
+            <div class="auth-header" id="authHeader">Login</div>
+            <div id="closeLoginPopup" class="absolute hover" style="right: 0;"><svg xmlns="http://www.w3.org/2000/svg"
+                    height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path
+                        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg></div>
+        </div>
+
+        <div class="auth-form" id="authForm">
+
+            <input class="forsignup" type="text" id="name" placeholder="Name" required />
+
+            <input type="text" id="username" placeholder="Username" required />
+
+            <div class="flex w100">
+                <input class="flex-grow-1" type="password" id="password" placeholder="Password" required />
+                <input class="flex-grow-1 forsignup" type="password" id="confirmPassword" placeholder="Confirm Password"
+                    required />
+            </div>
+
+
+            <div class="error" id="error" style="display: none;"></div>
+
+            <button id="submitButton">Login</button>
+        </div>
+
+        <div class="toggle-form">
+            <span>
+                <span id="toggleText"> Don't have an account? </span><a id="toggleLink">Sign Up</a>
+            </span>
+        </div>
+
+
+
+        <script>
+            const authContainer = document.querySelector('.auth-container');
+            const authHeader = document.getElementById('authHeader');
+            const authForm = document.getElementById('authForm');
+            const submitButton = document.getElementById('submitButton');
+            const errorElement = document.getElementById('error');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const nameInput = document.getElementById('name');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const signupUsernameInput = document.getElementById('signupUsername');
+            var sbtype = "login"
+            document.getElementById("loginPopup").style.display = "none"
+
+            document.querySelector("#closeLoginPopup").addEventListener("click", () => {
+                document.getElementById("loginPopup").style.display = "none"
+            })
+
+            document.querySelectorAll(".forsignup").forEach(e => {
+                e.style.display = "none"
+            })
+
+            document.getElementById('toggleLink').addEventListener('click', (e) => {
+                let toggleLink = document.getElementById('toggleLink')
+
+                if (toggleLink.innerText == "Sign Up") {
+
+                    authHeader.textContent = 'Sign Up';
+                    submitButton.textContent = "Sign Up"
+                    toggleLink.innerText = "Login"
+                    toggleText.innerText = ' Already have an account? '
+                    sbtype = "signup"
+
+                    document.querySelectorAll(".forsignup").forEach(e => {
+                        e.style.display = "block"
+                    })
+
+                }
+                else {
+
+                    authHeader.textContent = 'Login';
+                    submitButton.textContent = "Login"
+                    toggleLink.innerText = "Sign Up"
+                    toggleText.innerText = " Don't have an account? "
+                    sbtype = "login"
+
+                    document.querySelectorAll(".forsignup").forEach(e => {
+                        e.style.display = "none"
+                    })
+
+                }
+
+            })
+
+
+            // Form validation and submission
+            function validateForm() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                const confirmPassword = confirmPasswordInput.value.trim();
+                const name = nameInput.value.trim();
+
+                if (username === '' || password === '') {
+                    errorElement.textContent = 'Username and Password are required.';
+                    errorElement.style.display = 'block';
+                    return false;
+                }
+
+                if (password.length < 8) {
+                    errorElement.textContent = 'Password must be 8 character long';
+                    errorElement.style.display = 'block';
+                    return false;
+                }
+
+                if (sbtype == "signup") {
+                    if (name === '') {
+                        errorElement.textContent = 'Name is required.';
+                        errorElement.style.display = 'block';
+                        return false;
+                    }
+
+                    if (confirmPassword !== password) {
+                        errorElement.textContent = 'Passwords do not match.';
+                        errorElement.style.display = 'block';
+                        return false;
+                    }
+                }
+
+                errorElement.style.display = 'none';
+                return true;
+            }
+
+            // Handle the submit button click
+            submitButton.addEventListener('click', async () => {
+
+                if (!validateForm()) {
+                    return;
+                }
+
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                var body = {}
+
+                body.username = username
+                body.password = password
+                body.type = "login"
+
+                if (sbtype == "signup") {
+
+                    const name = nameInput.value.trim();
+                    body.name = name
+                    body.type = "signup"
+
+                }
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    alert('Login successful!');
+                    window.location.href = '/dashboard';
+                } else {
+                    errorElement.textContent = data.message;
+                    errorElement.style.display = 'block';
+                }
+
+            });
+
+
+        </script>
+
+    </div>
+
+    <main>
+        <section class="s2 flex flex-x-center flex-y-center" style="height: 80vh; width: 100%;">
+            <div class="white single pad-5 bb" style="width: 70%; height: 90%">Welcome to study with me</div>
+        </section>
+        <section class="s1 flex flex-x-center flex-y-center" style="height: 80vh; width: 100%;">
+            <div class="white single pad-5 bb" style="width: 70%; height: 90%">Welcome to study with me</div>
+        </section>
+        <section class="s2 flex flex-x-center flex-y-center" style="height: 80vh; width: 100%;">
+            <div class="white single pad-5 bb" style="width: 70%; height: 90%">Welcome to study with me</div>
+        </section>
+        <section class="s1 flex flex-x-center flex-y-center" style="height: 80vh; width: 100%;">
+            <div class="white single pad-5 bb" style="width: 70%; height: 90%">Welcome to study with me</div>
+        </section>
+        <section class="black flex flex-x-center flex-y-center" style="height: 20vh; width: 100%;">
+            <div class="black single  bb" style="width: 70%; height: 50%">Team Study</div>
+        </section>
+    </main>
+
+
+    <script>
+
+            (async () => {
+                try {
+                    const response = await fetch("/ping");
+                    const data = await response.json();
+
+                    const GetStarted = document.querySelector("#GetStarted")
+
+                    if (response.status === 200) {
+                        GetStarted.textContent = "Go to Dashboard"
+                        document.querySelector("#GetStarted").addEventListener('click', () => {
+                            window.open("/dashboard")
+                        })
+                    } else {
+                        GetStarted.textContent = "Get Started"
+                        GetStarted.addEventListener("click", () => {
+                            document.getElementById("loginPopup").style.display = "flex"
+                        })
+
+                        // Check if the URL has the `?login` parameter
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.has('login')) {
+                            if (GetStarted) {
+                                GetStarted.click();
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    alert("There was an error with the request.");
+                }
+            })();
+
+
+    </script>
+
+</body>
+
+</html>

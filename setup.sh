@@ -1,5 +1,5 @@
 npm init -y
-sudo npm install sqlite3 express
+sudo npm install sqlite3 express socket.io
 
 # mkdir static
 # mkdir static/css

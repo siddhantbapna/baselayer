@@ -1,0 +1,36 @@
+.timer-container {
+    background-color: black;
+    color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+.time-display {
+    flex: 1;
+}
+.time-display .time {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.time-display .label {
+    font-size: 0.875rem;
+}
+
+.timer-container .play-pause-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 0.25rem solid #f59e0b;
+    cursor: pointer;
+    background-color: black;
+}
+
+.timer-container .play-pause-btn svg {
+    fill: #f59e0b;
+    width: 2rem;
+    height: 2rem;
+}

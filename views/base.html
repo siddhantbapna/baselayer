@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/def.css">
+    <link rel="stylesheet" href="css/music.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/timer.css">
+    <link rel="stylesheet" href="css/ai.css">
+</head>
+
+<body>
+
+    <header class="fixed flex flex-y-center w100 bb pad-1" style="height: 7vh; top: 0;"></header>
+
+    <main class="flex w100 h100" style="margin-top: 7vh;">
+        
+        <section id="mainDiv" class="flex flex-y flex-right flex-grow-1 mar-lr black"
+            style="height: 92vh; width: 80%;  border-radius: 30px;"></section>
+        
+        <section class="flex flex-y flex-right flex-grow-1 mar-lr"
+            style="height: 92vh; width: 20%;  border-radius: 30px;">
+
+            <div id="timer" class="timer-container" style="margin-bottom: 5px;">
+                <div class="time-display">
+                    <div class="time" id="time">14:45</div>
+                    <div class="label">Timer</div>
+                </div>
+                <button class="play-pause-btn" aria-label="Play/Pause timer" id="controlButton">
+                    <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="pause-icon hidden" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#fff" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">AI Chat</div>
+                <div class="chat-box" id="chatBox">
+                    <!-- Chat messages will go here -->
+                </div>
+                <div class="chat-input">
+                    <textarea id="userInput" rows="5" placeholder="Type a message..."></textarea>
+                    <button class="send-button" id="sendButton">&#8594;</button>
+                </div>
+            </div>
+
+            <script>
+                let timer;
+                let isRunning = false;
+                let timeLeft = 14 * 60 + 45; // Initial time in seconds
+
+                const timeDisplay = document.getElementById('time');
+                const controlButton = document.getElementById('controlButton');
+                const playIcon = controlButton.querySelector('.play-icon');
+                const pauseIcon = controlButton.querySelector('.pause-icon');
+
+                function updateTimeDisplay() {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timeDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                }
+
+                function startTimer() {
+                    timer = setInterval(() => {
+                        if (timeLeft > 0) {
+                            timeLeft--;
+                            updateTimeDisplay();
+                        } else {
+                            clearInterval(timer);
+                            isRunning = false;
+                            playIcon.classList.remove('hidden');
+                            pauseIcon.classList.add('hidden');
+                        }
+                    }, 1000);
+                }
+
+                function toggleTimer() {
+                    if (isRunning) {
+                        clearInterval(timer);
+                        playIcon.classList.remove('hidden');
+                        pauseIcon.classList.add('hidden');
+                    } else {
+                        startTimer();
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                    }
+                    isRunning = !isRunning;
+                }
+
+                controlButton.addEventListener('click', toggleTimer);
+                updateTimeDisplay();
+            </script>
+
+            <script>
+                const sendButton = document.getElementById('sendButton');
+                const userInput = document.getElementById('userInput');
+                const chatBox = document.getElementById('chatBox');
+
+                // Function to add message to the chat
+                function addMessage(content, sender) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message', sender);
+                    messageDiv.textContent = content;
+                    chatBox.appendChild(messageDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+                }
+
+                // Fetch AI response from the server
+                async function fetchAIResponse(prompt) {
+                    const response = await fetch('/ai', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ prompt }),
+                    });
+
+                    const data = await response.json();
+                    return data.response;  // Assuming the AI's response is in the 'response' field
+                }
+
+                // Handle sending message
+                sendButton.addEventListener('click', async () => {
+                    const message = userInput.value.trim();
+                    if (message) {
+                        // User's message
+                        addMessage(message, 'user-message');
+                        userInput.value = '';
+
+                        // Show typing animation while waiting for the AI response
+                        const typingDiv = document.createElement('div');
+                        typingDiv.classList.add('message', 'ai-message', 'typing-message');
+                        typingDiv.textContent = "AI is typing...";
+                        chatBox.appendChild(typingDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+
+                        // Get AI's response and add to the chat
+                        const aiResponse = await fetchAIResponse(message);
+
+                        // Remove typing animation and display the AI's response
+                        typingDiv.remove();
+                        setTimeout(() => {
+                            addMessage(aiResponse, 'ai-message');
+                        }, 500);  // Optional delay for effect
+                    }
+                });
+
+                // Handle Enter key to send message
+                userInput.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' && !event.shiftKey) {  // Allow Enter key to send message
+                        event.preventDefault();  // Prevent newline from being added
+                        sendButton.click();
+                    }
+                });
+            </script>
+
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("mainDiv").innerHTML = `
+            <div class="flex flex-grow-1" style="border-radius: 15px;">
+                <iframe  style="border-radius: 15px;" class="w100" src="https://www.youtube.com/embed/2IK3DFHRFfw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        `
+    </script>
+
+    <script src="js/elms.js"></script>
+    <script>
+        header("Solo Session")
+        document.getElementById("homepage").addEventListener('click', () => { window.location.href = '/dashboard'; })
+    </script>
+    <script src="js/music.js"></script>
+
+
+</body>
+</html>
+
+
+
